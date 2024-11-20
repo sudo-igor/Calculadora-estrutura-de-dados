@@ -63,12 +63,12 @@ void postfixToInfix(const char *expressao, char *resultadoInfix) {
             pushString(&pilha, buffer);
         } else {
             if (isOperadorUnario(buffer)) {
-                // OperaÃ§Ãµes com um operando
+                // Operações com um operando
                 char operando[MAX];
                 strcpy(operando, popString(&pilha));
                 sprintf(resultado, "(%s %s)", buffer, operando);
             } else {
-                // OperaÃ§Ãµes com dois operandos
+                // Operações com dois operandos
                 strcpy(operando2, popString(&pilha));
                 strcpy(operando1, popString(&pilha));
                 sprintf(resultado, "(%s %s %s)", operando1, buffer, operando2);
@@ -117,7 +117,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "/") == 0) {
             double b = pop(&pilha);
             if (b == 0) {
-                printf("Erro: DivisÃ£o por zero!\n");
+                printf("Erro: Divisão por zero!\n");
                 exit(1);
             }
             double a = pop(&pilha);
@@ -129,7 +129,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "raiz") == 0) {
             double a = pop(&pilha);
             if (a < 0) {
-                printf("Erro: Raiz quadrada de nÃºmero negativo!\n");
+                printf("Erro: Raiz quadrada de número negativo!\n");
                 exit(1);
             }
             push(&pilha, sqrt(a));
@@ -163,7 +163,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "log") == 0) {
             double a = pop(&pilha);
             if (a <= 0) {
-                printf("Erro: Logaritmo de nÃºmero menor ou igual a zero!\n");
+                printf("Erro: Logaritmo de número menor ou igual a zero!\n");
                 exit(1);
             }
             push(&pilha, log10(a));
