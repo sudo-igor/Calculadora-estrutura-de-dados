@@ -35,8 +35,8 @@ int isOperador(char c) {
 
 int isOperadorUnario(const char *str) {
     return (strcmp(str, "sqrt") == 0 || strcmp(str, "sen") == 0 ||
-            strcmp(str, "cos") == 0 || strcmp(str, "log") == 0) ||
-            strcmp(str, "tg") == 0;
+        strcmp(str, "cos") == 0 || strcmp(str, "log") == 0 || 
+        strcmp(str, "tg") == 0 || strcmp(str, "raiz") == 0);
 }
 
 void postfixToInfix(const char *expressao, char *resultadoInfix) {
@@ -63,12 +63,12 @@ void postfixToInfix(const char *expressao, char *resultadoInfix) {
             pushString(&pilha, buffer);
         } else {
             if (isOperadorUnario(buffer)) {
-                // Operações com um operando
+                // OperaÃ§Ãµes com um operando
                 char operando[MAX];
                 strcpy(operando, popString(&pilha));
                 sprintf(resultado, "(%s %s)", buffer, operando);
             } else {
-                // Operações com dois operandos
+                // OperaÃ§Ãµes com dois operandos
                 strcpy(operando2, popString(&pilha));
                 strcpy(operando1, popString(&pilha));
                 sprintf(resultado, "(%s %s %s)", operando1, buffer, operando2);
@@ -117,7 +117,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "/") == 0) {
             double b = pop(&pilha);
             if (b == 0) {
-                printf("Erro: Divisão por zero!\n");
+                printf("Erro: DivisÃ£o por zero!\n");
                 exit(1);
             }
             double a = pop(&pilha);
@@ -129,7 +129,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "raiz") == 0) {
             double a = pop(&pilha);
             if (a < 0) {
-                printf("Erro: Raiz quadrada de número negativo!\n");
+                printf("Erro: Raiz quadrada de nÃºmero negativo!\n");
                 exit(1);
             }
             push(&pilha, sqrt(a));
@@ -163,7 +163,7 @@ double evaluatePostfix(const char *expressao) {
         } else if (strcmp(buffer, "log") == 0) {
             double a = pop(&pilha);
             if (a <= 0) {
-                printf("Erro: Logaritmo de número menor ou igual a zero!\n");
+                printf("Erro: Logaritmo de nÃºmero menor ou igual a zero!\n");
                 exit(1);
             }
             push(&pilha, log10(a));
@@ -178,7 +178,7 @@ double evaluatePostfix(const char *expressao) {
 int validarExpressaoPostfixada(const char *expressao) {
     int operandoCount = 0;
     int operadorCount = 0;
-    int encontrouEspaco = 0; // Para verificar se há espaços
+    int encontrouEspaco = 0; // Para verificar se hÃ¡ espaÃ§os
 
     const char *token = expressao;
     char buffer[MAX];
@@ -186,7 +186,7 @@ int validarExpressaoPostfixada(const char *expressao) {
 
     while (*token) {
         if (isspace(*token)) {
-            encontrouEspaco = 1; // Há pelo menos um espaço
+            encontrouEspaco = 1; // HÃ¡ pelo menos um espaÃ§o
             token++;
             continue;
         }
@@ -203,25 +203,25 @@ int validarExpressaoPostfixada(const char *expressao) {
             operadorCount++;
             if (isOperadorUnario(buffer)) {
                 if (operandoCount < 1) {
-                    printf("Erro: Operador unário '%s' sem operandos suficientes.\n", buffer);
+                    printf("Erro: Operador unÃ¡rio '%s' sem operandos suficientes.\n", buffer);
                     return 0;
                 }
             } else {
                 if (operandoCount < 2) {
-                    printf("Erro: Operador binário '%s' sem operandos suficientes.\n", buffer);
+                    printf("Erro: Operador binÃ¡rio '%s' sem operandos suficientes.\n", buffer);
                     return 0;
                 }
                 operandoCount--; // Dois operandos viram um na pilha
             }
         } else {
-            printf("Erro: Token inválido encontrado '%s'.\n", buffer);
+            printf("Erro: Token invÃ¡lido encontrado '%s'.\n", buffer);
             return 0;
         }
     }
 
-    // Verifica se há espaços na expressão
+    // Verifica se hÃ¡ espaÃ§os na expressÃ£o
     if (!encontrouEspaco) {
-        printf("Erro: A expressão deve conter espaços para separar operandos e operadores.\n");
+        printf("Erro: A expressÃ£o deve conter espaÃ§os para separar operandos e operadores.\n");
         return 0;
     }
 
